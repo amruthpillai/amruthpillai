@@ -41,29 +41,21 @@ const Home: NextPage<Props> = ({ articles, dribbbleShots, instagramMedia }) => (
     <Header />
 
     <AboutMe />
+    <Skills />
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
       <WorkExperience />
       <Education />
     </div>
 
-    <Skills />
     <Projects />
     <Blog articles={articles} />
     <Languages />
 
-    <div className="grid lg:grid-cols-3 gap-12">
-      <Achievements />
-      <Certifications />
-      <Philantrophy />
-    </div>
+    <Certifications />
 
-    <Photography instagramMedia={instagramMedia} />
-    <Music />
-    <Designs dribbbleShots={dribbbleShots} />
     <Resume />
     <Contact />
-    <AboutRotW />
     <Footer />
   </div>
 );
