@@ -49,7 +49,7 @@ Utilized NestJS, PostgreSQL, MongoDB, Kafka, and Redis to develop and optimize s
   {
     id: 3,
     logo: "/images/work-experience/ois.webp",
-    name: "SOFTIC",
+    name: "OIS",
     period: { start: "December 2022", end: "April 2023" },
     position: "Software Engineer",
     location: "Dhaka, Bangladesh",
