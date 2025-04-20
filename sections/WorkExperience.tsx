@@ -8,7 +8,7 @@ import { MdMoreHoriz } from "react-icons/md";
 import { Section, type WorkExperience } from "types/Sections";
 import { getSectionHeading } from "utils";
 
-const DISPLAY_COUNT = 3;
+const DISPLAY_COUNT = 2;
 
 type Props = {
   data: WorkExperience;
