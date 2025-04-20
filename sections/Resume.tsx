@@ -14,7 +14,7 @@ const Resume = () => (
           height={300}
           href={links.resume}
           src="/images/resume/cover.jpg"
-          alt="Amruth Pillai's Resume on Print"
+          alt="Owali Ullah Shawon's Resume on Print"
         />
       </div>
 

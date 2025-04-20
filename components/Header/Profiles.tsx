@@ -2,7 +2,8 @@ import Tippy from "@tippyjs/react";
 import clsx from "clsx";
 import links from "data/links";
 import type { IconType } from "react-icons";
-import { FaDev, FaDribbble, FaFacebookF, FaGithubAlt, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaDev, FaFacebookF, FaGithubAlt, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { SiLeetcode } from "react-icons/si";
 
 type Profile = {
   title: string;
@@ -13,22 +14,10 @@ type Profile = {
 
 const profiles: Profile[] = [
   {
-    title: "Instagram",
-    icon: FaInstagram,
-    link: links.instagram,
-    className: "bg-[#e1306c]",
-  },
-  {
     title: "LinkedIn",
     icon: FaLinkedinIn,
     link: links.linkedin,
     className: "bg-[#2867b2]",
-  },
-  {
-    title: "Twitter",
-    icon: FaTwitter,
-    link: links.twitter,
-    className: "bg-[#1da1f2]",
   },
   {
     title: "GitHub",
@@ -37,16 +26,28 @@ const profiles: Profile[] = [
     className: "bg-[#211f1f]",
   },
   {
-    title: "Dribbble",
-    icon: FaDribbble,
-    link: links.dribbble,
-    className: "bg-[#ea4c89]",
+    title: "LeetCode",
+    icon: SiLeetcode,
+    link: links.leetcode,
+    className: "bg-[#3b5998]",
   },
   {
     title: "DEV Community",
     icon: FaDev,
     link: links.dev,
     className: "bg-[#0a0a0a]",
+  },
+  {
+    title: "Instagram",
+    icon: FaInstagram,
+    link: links.instagram,
+    className: "bg-[#e1306c]",
+  },
+  {
+    title: "Twitter",
+    icon: FaTwitter,
+    link: links.twitter,
+    className: "bg-[#1da1f2]",
   },
   {
     title: "Facebook",

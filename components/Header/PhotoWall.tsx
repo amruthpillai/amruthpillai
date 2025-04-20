@@ -37,7 +37,7 @@ const PhotoWall: React.FC<Props> = ({ size = 512 }) => {
             fill
             priority
             src={photo}
-            alt="Amruth Pillai"
+            alt="Owali Ullah Shawon"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className={clsx("object-cover", { "rounded-l": index === 0, "rounded-r": index === photos.length - 1 })}
           />

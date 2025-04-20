@@ -12,19 +12,19 @@ const Header: React.FC = () => {
     <div id="header" className="h-screen grid place-items-center place-content-center gap-4">
       {/* Photo Wall */}
       <NoSSR>
-        <PhotoWall size={width > Breakpoints.sm ? 384 : 256} />
+        {/* <PhotoWall size={width > Breakpoints.sm ? 384 : 256} /> */}
       </NoSSR>
 
       {/* Logo */}
-      <Image src="/images/logo.png" width={485} height={128} alt="Amruth Pillai" priority />
+      <Image src="/images/logo.png" width={485} height={128} alt="Owali Ullah Shawon" priority />
 
       {/* Text Version */}
       <h1 className="sr-only">
-        Amruth Pillai - Resume on the Web
+        Owali Ullah Shawon - Resume on the Web
         <br />
-        Designer, Developer, Photographer, Writer
+        Developer, Photographer, Writer
         <br />
-        Berlin, Germany &amp; Bengaluru, India
+        Dhaka, Bangladesh
       </h1>
 
       {/* Ingredients */}

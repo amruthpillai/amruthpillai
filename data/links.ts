@@ -1,13 +1,13 @@
 const links = {
-  instagram: "https://pillai.xyz/instagram",
-  linkedin: "https://pillai.xyz/linkedin",
-  twitter: "https://pillai.xyz/twitter",
-  github: "https://pillai.xyz/github",
-  dribbble: "https://pillai.xyz/dribbble",
-  dev: "https://pillai.xyz/dev",
-  facebook: "https://pillai.xyz/facebook",
-  resume: "https://pillai.xyz/resume-pdf",
-  repository: "https://github.com/AmruthPillai/ResumeOnTheWeb",
+  github: "https://github.com/owalishawon",
+  linkedin: "https://www.linkedin.com/in/owalishawon/",
+  leetcode: "https://leetcode.com/u/OwaliShawon/",
+  dailydev: "https://app.daily.dev/owalishawon",
+  facebook: "https://www.facebook.com/OwaliShawon",
+  twitter: "https://twitter.com/owalishawon",
+  instagram: "https://www.instagram.com/owalishawon/",
+  dev: "https://dev.to/owalishawon",
+  resume: "https://rxresu.me/owalishawon/owali-ullah-shawon",
 };
 
 export default links;

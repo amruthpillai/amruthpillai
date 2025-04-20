@@ -22,7 +22,7 @@ const Contact = () => {
 
   const [isSubmitted, setSubmitted] = useState(false);
 
-  const [submit, submitting] = useFormspark({ formId: "LVr3mgSu" });
+  const [submit, submitting] = useFormspark({ formId: "j11OLCNBc" });
 
   const onSubmit = handleSubmit(async (data) => {
     await submit(data);

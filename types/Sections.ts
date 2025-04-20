@@ -90,3 +90,10 @@ export type DribbbleShot = {
     hidpi: string;
   };
 };
+
+export type Skill = {
+  id: number;
+  icon: string;
+  name: string;
+  technologies: string[];
+};
