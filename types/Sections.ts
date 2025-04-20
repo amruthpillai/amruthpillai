@@ -97,3 +97,14 @@ export type Skill = {
   name: string;
   technologies: string[];
 };
+
+export type WorkExperience = {
+  id: number;
+  logo: string;
+  name: string;
+  period: { start: string; end: string };
+  position: string;
+  location: string;
+  summary: string;
+  keyFocus: string[];
+};
