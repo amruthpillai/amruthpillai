@@ -1,0 +1,25 @@
+---
+import { getBlogPosts } from "@/collections/blog"
+import PostCard from "@/components/blog/PostCard.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+
+const posts = await getBlogPosts()
+---
+
+<MainLayout
+  title="blog · amruth pillai"
+  description="my rambling thoughts on design, development, and building on the web."
+>
+  <section class="my-18 space-y-18 sm:my-30 sm:space-y-30">
+    <header class="space-y-3">
+      <h1 class="text-5xl leading-none font-semibold tracking-tight">blog</h1>
+      <p class="max-w-prose leading-relaxed text-pretty text-muted">
+        my rambling thoughts on design, development, and building on the web.
+      </p>
+    </header>
+
+    <div>
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</MainLayout>

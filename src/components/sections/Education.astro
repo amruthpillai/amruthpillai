@@ -1,0 +1,19 @@
+---
+import { GraduationCapIcon } from "@lucide/astro"
+
+import { getEducation } from "@/collections/education"
+import EducationCard from "@/components/education/EducationCard.astro"
+
+const education = await getEducation()
+---
+
+<section id="education" class="space-y-6">
+  <div class="flex items-center gap-x-4">
+    <GraduationCapIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">education</h2>
+  </div>
+
+  <div>
+    {education.map((item) => <EducationCard education={item} />)}
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+import { ArrowRightIcon, UserIcon } from "@lucide/astro"
+---
+
+<section id="about" class="space-y-6">
+  <div class="flex items-center gap-x-4">
+    <UserIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">about</h2>
+  </div>
+
+  <div class="max-w-prose space-y-4 leading-relaxed text-pretty">
+    <p class="drop-cap">
+      I'm a senior frontend engineer based in Berlin. I spend my days building product at Elara Digital GmbH and my
+      evenings (and many weekends) maintaining Reactive Resume, a free and open-source resume builder used by millions
+      worldwide.
+    </p>
+
+    <p>
+      Most of what I build is on the web, in TypeScript, with whatever framework piques my interest at the time. This
+      blog is a place to share my thoughts and learnings.
+    </p>
+
+    <p>
+      If any of that resonates,
+      <a href="/#contact">
+        get in touch
+        <ArrowRightIcon size="14" stroke-width="1.5" class="inline" />
+      </a>
+    </p>
+  </div>
+</section>

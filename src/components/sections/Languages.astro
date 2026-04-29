@@ -1,0 +1,19 @@
+---
+import { LanguagesIcon } from "@lucide/astro"
+
+import { getLanguages } from "@/collections/languages"
+import LanguageCard from "@/components/languages/LanguageCard.astro"
+
+const languages = await getLanguages()
+---
+
+<section id="languages" class="space-y-6">
+  <div class="flex items-center gap-x-4">
+    <LanguagesIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">languages</h2>
+  </div>
+
+  <div>
+    {languages.map((language) => <LanguageCard language={language} />)}
+  </div>
+</section>

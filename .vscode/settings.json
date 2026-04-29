@@ -1,0 +1,16 @@
+{
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "[mdx]": {
+    "editor.defaultFormatter": "unifiedjs.vscode-mdx"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "json.schemas": [
+    {
+      "fileMatch": [".ncurc.json"],
+      "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
+    }
+  ]
+}

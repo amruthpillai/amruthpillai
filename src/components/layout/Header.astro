@@ -1,0 +1,43 @@
+---
+import { SlashIcon } from "@lucide/astro"
+
+import { navLinks } from "@/data/site"
+
+import Logo from "./Logo.astro"
+import ThemeToggle from "./ThemeToggle.astro"
+
+const currentPath = new URL(Astro.request.url).pathname
+const isCurrentPath = (href: string) => {
+  if (href.includes("#")) return false
+  const path = href.split("#")[0]
+  if (path === "/") return currentPath === "/"
+  if (path === "/blog") return currentPath === "/blog" || currentPath.startsWith("/blog/")
+  return currentPath === path
+}
+---
+
+<header class="mx-auto flex max-w-4xl items-center justify-between px-4 py-3.5 lg:px-0">
+  <a href="/">
+    <Logo />
+  </a>
+
+  <nav class="flex items-center gap-x-4 text-sm">
+    <ul class="flex items-center gap-x-4">
+      {
+        navLinks.map((item) => (
+          <>
+            <SlashIcon size={8} class="first:hidden" />
+
+            <li>
+              <a href={item.href} aria-current={isCurrentPath(item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          </>
+        ))
+      }
+    </ul>
+
+    <ThemeToggle />
+  </nav>
+</header>

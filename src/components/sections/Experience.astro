@@ -1,0 +1,19 @@
+---
+import { BriefcaseIcon } from "@lucide/astro"
+
+import { getExperiences } from "@/collections/experience"
+import ExperienceCard from "@/components/experience/ExperienceCard.astro"
+
+const experiences = await getExperiences()
+---
+
+<section id="experience" class="space-y-6">
+  <div class="flex items-center gap-x-4">
+    <BriefcaseIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">experience</h2>
+  </div>
+
+  <div>
+    {experiences.map((experience) => <ExperienceCard experience={experience} />)}
+  </div>
+</section>

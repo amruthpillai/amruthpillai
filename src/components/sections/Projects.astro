@@ -1,0 +1,20 @@
+---
+import { FolderGitIcon } from "@lucide/astro"
+
+import { getProjects } from "@/collections/projects"
+
+import ProjectCard from "../projects/ProjectCard.astro"
+
+const projects = await getProjects()
+---
+
+<section id="projects" class="space-y-6">
+  <div class="flex items-center gap-x-4">
+    <FolderGitIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">projects</h2>
+  </div>
+
+  <div>
+    {projects.map((project) => <ProjectCard project={project} />)}
+  </div>
+</section>

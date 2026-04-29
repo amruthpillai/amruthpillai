@@ -1,0 +1,25 @@
+---
+import { ArrowRightIcon, BookOpenIcon } from "@lucide/astro"
+
+import { getRecentBlogPosts } from "@/collections/blog"
+
+import PostCard from "../blog/PostCard.astro"
+
+const recentPosts = await getRecentBlogPosts()
+---
+
+<section id="writing" class="space-y-6">
+  <div class="flex items-center gap-x-4">
+    <BookOpenIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">writing</h2>
+  </div>
+
+  <div>
+    {recentPosts.map((post) => <PostCard post={post} />)}
+  </div>
+
+  <a href="/blog">
+    all posts
+    <ArrowRightIcon size="14" stroke-width="1.5" class="inline" />
+  </a>
+</section>

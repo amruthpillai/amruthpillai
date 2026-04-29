@@ -1,0 +1,31 @@
+---
+import { SlashIcon } from "@lucide/astro"
+
+import { socialLinks } from "@/data/site"
+
+import Logo from "./Logo.astro"
+---
+
+<footer class="mx-auto flex max-w-4xl items-center justify-between border-t px-4 py-12 lg:px-0">
+  <a href="/" class="gap-x-3.5 no-underline">
+    <Logo size={18} />
+    <h2 class="text-lg font-semibold tracking-tight">amruth pillai</h2>
+  </a>
+
+  <nav class="hidden sm:block">
+    <ul class="flex items-center gap-x-3 text-sm">
+      {
+        socialLinks.map((link) => (
+          <>
+            <SlashIcon size={8} class="first:hidden" />
+            <li>
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.label}
+              </a>
+            </li>
+          </>
+        ))
+      }
+    </ul>
+  </nav>
+</footer>

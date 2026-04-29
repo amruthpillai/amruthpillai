@@ -1,0 +1,24 @@
+---
+import { MoonIcon, SunIcon } from "@lucide/astro"
+---
+
+<button data-theme-toggle aria-label="Toggle color theme" class="size-8 rounded-md p-2 hover:bg-muted/20">
+  <MoonIcon size="16" stroke-width="1.5" class="hidden dark:block" />
+  <SunIcon size="16" stroke-width="1.5" class="block dark:hidden" />
+</button>
+
+<script>
+  const initializeThemeToggle = () => {
+    const themeToggleButton = document.querySelector<HTMLButtonElement>("[data-theme-toggle]")
+    if (!themeToggleButton) return
+
+    themeToggleButton.onclick = () => {
+      const nextTheme = document.documentElement.classList.contains("dark") ? "light" : "dark"
+      document.documentElement.classList.toggle("dark", nextTheme === "dark")
+      localStorage.setItem("theme", nextTheme)
+    }
+  }
+
+  document.addEventListener("astro:page-load", initializeThemeToggle)
+  initializeThemeToggle()
+</script>

@@ -1,0 +1,76 @@
+---
+import { DotIcon } from "@lucide/astro"
+import { Image } from "astro:assets"
+import { render } from "astro:content"
+
+import { type BlogPost, getBlogPosts } from "@/collections/blog"
+import { getBlogPostSchema } from "@/data/site"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getPostMetadata } from "@/utils/post"
+import { getBlogPostSlug } from "@/utils/url"
+
+interface Props {
+  post: BlogPost
+}
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts()
+
+  return posts.map((post) => ({
+    params: { slug: getBlogPostSlug(post) },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { Content } = await render(post)
+const blogPostSchema = getBlogPostSchema(post)
+const { date, formattedDate, readingTime } = getPostMetadata(post)
+---
+
+<MainLayout title={`${post.data.title} · amruth pillai`} description={post.data.description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(blogPostSchema)} />
+
+  <article class="my-18 space-y-8 sm:my-30 sm:space-y-12">
+    <header class="flex flex-col gap-y-4">
+      {
+        post.data.featuredImage && (
+          <Image
+            widths={[768]}
+            loading="lazy"
+            src={post.data.featuredImage}
+            class="mb-2 rounded-md object-cover"
+            alt={`Featured image for ${post.data.title}`}
+            transition:name={`post-${post.id}-featured-image`}
+          />
+        )
+      }
+
+      <p
+        transition:name={`post-${post.id}-meta`}
+        class="flex items-center gap-x-1 font-mono text-xs tracking-wide uppercase"
+      >
+        <time datetime={date}>{formattedDate}</time>
+        <DotIcon size="14" class="shrink-0" />
+        <span>{readingTime}</span>
+      </p>
+      <h1 transition:name={`post-${post.id}-title`} class="text-3xl font-semibold tracking-tight sm:text-5xl">
+        {post.data.title}
+      </h1>
+      <p
+        transition:name={`post-${post.id}-description`}
+        class="max-w-prose text-base/relaxed text-pretty text-muted sm:text-lg/relaxed"
+      >
+        {post.data.description}
+      </p>
+    </header>
+
+    <hr />
+
+    <div
+      class="prose max-w-none prose-stone dark:prose-invert prose-headings:font-heading prose-headings:tracking-tight prose-a:decoration-1 prose-a:underline-offset-4"
+    >
+      <Content />
+    </div>
+  </article>
+</MainLayout>

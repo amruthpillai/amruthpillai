@@ -1,0 +1,29 @@
+---
+import AboutSection from "@/components/sections/About.astro"
+import ContactSection from "@/components/sections/Contact.astro"
+import EducationSection from "@/components/sections/Education.astro"
+import ExperienceSection from "@/components/sections/Experience.astro"
+import HeroSection from "@/components/sections/Hero.astro"
+import LanguagesSection from "@/components/sections/Languages.astro"
+import ProjectsSection from "@/components/sections/Projects.astro"
+import ResumeSection from "@/components/sections/Resume.astro"
+import WritingSection from "@/components/sections/Writing.astro"
+import { personSchema, site } from "@/data/site"
+import MainLayout from "@/layouts/MainLayout.astro"
+---
+
+<MainLayout title={`${site.name} · ${site.tagline}`} description={site.description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+  <div class="my-18 space-y-18 sm:my-30 sm:space-y-30">
+    <HeroSection />
+    <AboutSection />
+    <WritingSection />
+    <ProjectsSection />
+    <ExperienceSection />
+    <EducationSection />
+    <LanguagesSection />
+    <ResumeSection />
+    <ContactSection />
+  </div>
+</MainLayout>

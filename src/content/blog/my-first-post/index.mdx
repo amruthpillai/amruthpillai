@@ -1,0 +1,39 @@
+---
+title: Hello, world!
+description: The first post of many to come. A quick intro to the new website, and why I rebuilt it from scratch.
+publishedAt: 2026-05-01
+featuredImage: ./featured-image.png
+---
+
+import { Image } from "astro:assets"
+import lighthouseScore from "./lighthouse-score.png"
+
+It's spring, and that means, it's time for a website refresh. This has been a long time coming, but I never made the time to sit down and do the work to redesign and simplify my personal website.
+
+Well, it's here now. Powered by Astro, this website goes back to a simpler time, when all that was shipped to the reader was a bunch of HTML and CSS, and maybe a tiny bit of Javascript. The whole point was to wind-down and simplify, and Astro let me do just that, so I can focus on content rather than performance-maxing.
+
+This website also receives a Lighthouse score that's not too shabby, but of course, that's not a metric that should be taken too seriously. It's fast, that's all that matters.
+
+<Image
+  src={lighthouseScore}
+  alt="lighthouse score for amruthpillai.com"
+  widths={[576]}
+  class="max-w-xl rounded-md object-cover"
+/>
+
+Astro even lets me write stylized code blocks and snippets, which is what I want to write about most of the time anyway.
+
+```tsx line-numbers
+const [count, setCount] = useState(0)
+
+return (
+  <div>
+    <p>Count: {count}</p>
+    <button onClick={() => setCount(count + 1)}>Increment</button>
+  </div>
+)
+```
+
+As usual, the code for this website, like all my other projects, is open source and available on [GitHub](https://github.com/amruthpillai/amruthpillai). Licensed under [MIT](https://github.com/amruthpillai/amruthpillai/blob/main/LICENSE), so feel free to use it as a template for your own website.
+
+I'll keep this post short, and end it here by thanking you for reading. If you have any feedback, please feel free to reach out to me on the [contact form](/#contact).

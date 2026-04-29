@@ -1,0 +1,103 @@
+---
+import "@/styles/global.css"
+
+import type { ImageMetadata } from "astro"
+import { Font } from "astro:assets"
+import { ClientRouter } from "astro:transitions"
+
+import defaultImage from "@/assets/images/opengraph.png"
+import Footer from "@/components/layout/Footer.astro"
+import Header from "@/components/layout/Header.astro"
+import { site, socialLinks, websiteSchema } from "@/data/site"
+import { toAbsoluteUrl } from "@/utils/url"
+
+interface Props {
+  title?: string
+  description?: string
+  image?: ImageMetadata
+}
+
+const canonicalURL = toAbsoluteUrl(Astro.url.pathname, Astro.site ?? site.url)
+
+const { title = site.name, description = site.description, image = defaultImage } = Astro.props
+
+const imageURL = toAbsoluteUrl(image.src, Astro.site ?? site.url)
+
+const twitterHandle =
+  socialLinks
+    .find((link) => link.label === "x")
+    ?.href.split("/")
+    .pop() ?? ""
+---
+
+<script is:inline>
+  const applyTheme = () => {
+    const storedTheme = localStorage.getItem("theme")
+    const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    const theme = storedTheme === "dark" || storedTheme === "light" ? storedTheme : preferredTheme
+    document.documentElement.classList.toggle("dark", theme === "dark")
+  }
+
+  document.addEventListener("astro:after-swap", applyTheme)
+  applyTheme()
+</script>
+
+<html lang={site.locale} transition:name="root" transition:animate="none">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="index,follow" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f5f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0a09" media="(prefers-color-scheme: dark)" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="alternate" title={site.name} type="application/rss+xml" href={new URL("rss.xml", Astro.site)} />
+
+    <Font preload cssVariable="--font-lora" />
+    <Font cssVariable="--font-recoleta" />
+    <Font cssVariable="--font-ibm-plex-mono" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:alt" content={title} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:site" content={twitterHandle} />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={imageURL} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
+    <ClientRouter />
+  </head>
+
+  <body>
+    <Header />
+
+    <main transition:name="main" transition:animate="fade" class="mx-auto max-w-3xl px-4 lg:px-0">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

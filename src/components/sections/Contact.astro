@@ -1,0 +1,41 @@
+---
+import { MailIcon } from "@lucide/astro"
+
+import ContactForm from "@/components/contact/ContactForm.astro"
+---
+
+<section id="contact" class="space-y-8">
+  <div class="flex items-center gap-x-4">
+    <MailIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">get in touch</h2>
+  </div>
+
+  <div data-contact-form class="space-y-8">
+    <p class="max-w-prose leading-relaxed text-pretty">
+      Have a project, a question, or just want to say hi? I read every message.
+    </p>
+
+    <ContactForm />
+  </div>
+
+  <div data-contact-success class="hidden space-y-2">
+    <h3 class="text-xl font-semibold tracking-tight">Thank you for reaching out.</h3>
+    <p class="text-muted">Your message was received. I read everything and usually reply within a few days.</p>
+  </div>
+</section>
+
+<script is:inline>
+  const isSent = new URLSearchParams(window.location.search).get("sent") === "true"
+
+  const form = document.querySelector("[data-contact-form]")
+  const success = document.querySelector("[data-contact-success]")
+
+  if (isSent) {
+    form?.classList.add("hidden")
+    success?.classList.remove("hidden")
+
+    const url = new URL(window.location.href)
+    url.searchParams.delete("sent")
+    history.replaceState({}, "", url.toString())
+  }
+</script>

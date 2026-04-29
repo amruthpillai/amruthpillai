@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.5rem;
+
+  --background: var(--color-stone-100);
+  --foreground: var(--color-stone-900);
+  --border: var(--color-stone-200);
+  --muted: var(--color-stone-600);
+}
+
+.dark {
+  --background: var(--color-stone-950);
+  --foreground: var(--color-stone-50);
+  --border: var(--color-stone-700);
+  --muted: var(--color-stone-300);
+}
+
+@theme inline {
+  --font-body: var(--font-lora), serif;
+  --font-heading: var(--font-recoleta), serif;
+  --font-code: var(--font-ibm-plex-mono), monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+@layer base {
+  * {
+    @apply border-border decoration-border;
+  }
+
+  body {
+    @apply font-body bg-background text-foreground antialiased;
+  }
+
+  :is(pre, code) {
+    @apply font-code;
+  }
+
+  :is(h1, h2, h3, h4, h5, h6) {
+    @apply font-heading;
+  }
+
+  :is(a),
+  :is(button) {
+    @apply inline-flex items-center gap-x-2 underline font-medium underline-offset-4 hover:decoration-muted transition-colors focus-visible:outline-none focus-visible:decoration-muted aria-selected:decoration-muted cursor-pointer;
+  }
+}
+
+@layer components {
+  .drop-cap::first-letter {
+    float: left;
+    font-size: 3.5rem;
+    line-height: 0.8;
+    padding-top: 0.8rem;
+    padding-right: 0.6rem;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,31 @@
+---
+import { SlashIcon } from "@lucide/astro"
+
+import { socialLinks } from "@/data/site"
+---
+
+<section id="hero" class="space-y-6">
+  <div class="-space-y-2">
+    <p class="text-sm italic sm:text-base">hi, my name is</p>
+    <h1 class="text-5xl font-semibold tracking-tight sm:text-6xl">amruth pillai</h1>
+  </div>
+
+  <p class="text-base text-muted italic sm:text-lg">designer · developer · photographer · writer</p>
+
+  <nav>
+    <ul class="flex items-center gap-x-3">
+      {
+        socialLinks.map((link) => (
+          <>
+            <SlashIcon size={8} class="first:hidden" />
+            <li>
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.label}
+              </a>
+            </li>
+          </>
+        ))
+      }
+    </ul>
+  </nav>
+</section>

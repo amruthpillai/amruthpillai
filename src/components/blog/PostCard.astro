@@ -1,0 +1,51 @@
+---
+import { DotIcon } from "@lucide/astro"
+import { Image } from "astro:assets"
+
+import type { BlogPost } from "@/collections/blog"
+import { getPostMetadata } from "@/utils/post"
+import { getBlogPostPath } from "@/utils/url"
+
+interface Props {
+  post: BlogPost
+}
+
+const { post } = Astro.props
+const { date, formattedDate, readingTime } = getPostMetadata(post)
+const postPath = getBlogPostPath(post)
+---
+
+<div class="flex flex-col gap-y-4 border-t py-6 first:border-t-0 first:pt-0 last:pb-0">
+  {
+    post.data.featuredImage && (
+      <a href={postPath}>
+        <Image
+          widths={[448]}
+          loading="lazy"
+          src={post.data.featuredImage}
+          class="max-w-md rounded-lg object-cover"
+          alt={`Featured image for ${post.data.title}`}
+          transition:name={`post-${post.id}-featured-image`}
+        />
+      </a>
+    )
+  }
+
+  <article class="flex flex-col gap-2">
+    <span
+      transition:name={`post-${post.id}-meta`}
+      class="flex items-center gap-x-1 font-mono text-xs tracking-wide uppercase"
+    >
+      <time datetime={date}>{formattedDate}</time>
+      <DotIcon size="14" class="shrink-0" />
+      <span>{readingTime}</span>
+    </span>
+    <h2 transition:name={`post-${post.id}-title`} class="text-2xl font-semibold tracking-tight">
+      <a href={postPath}>{post.data.title}</a>
+    </h2>
+    <p transition:name={`post-${post.id}-description`} class="max-w-prose leading-relaxed text-pretty">
+      {post.data.description}Veniam laboris Lorem veniam velit sint veniam eiusmod ipsum et. Lorem elit aute ipsum et
+      veniam nisi sit ex adipisicing incididunt mollit.
+    </p>
+  </article>
+</div>

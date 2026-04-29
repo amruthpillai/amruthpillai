@@ -1,0 +1,14 @@
+---
+import type { Language } from "@/collections/languages"
+
+interface Props {
+  language: Language
+}
+
+const { language } = Astro.props
+---
+
+<article class="flex items-center justify-between gap-4 border-t py-3 first:border-t-0 first:pt-0 last:pb-0">
+  <h3 class="font-body">{language.data.name}</h3>
+  <p class="shrink-0 text-sm text-muted italic">{language.data.proficiency}</p>
+</article>

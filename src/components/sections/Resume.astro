@@ -1,0 +1,37 @@
+---
+import { ArrowDownToLineIcon, FileTextIcon } from "@lucide/astro"
+
+import { resume } from "@/data/site"
+
+const { filename, mimeType, size, url } = resume
+
+const fileType = mimeType.split("/")[1]
+const fileSize = (size / 1024 / 1024).toFixed(2)
+---
+
+<section id="resume" class="space-y-8">
+  <div class="flex items-center gap-x-4">
+    <FileTextIcon size="20" stroke-width="1.5" />
+    <h2 class="text-3xl font-semibold tracking-tight">resume</h2>
+  </div>
+
+  <div class="flex flex-col items-start justify-between gap-4 sm:flex-row">
+    <p class="max-w-lg leading-relaxed text-pretty">
+      Looking for a printable format or want to know more about my professional experience and skills?
+    </p>
+
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-x-6 rounded-md border px-5 py-3 no-underline! hover:border-foreground"
+    >
+      <div class="space-y-1">
+        <h3 class="text-base leading-none font-semibold tracking-tight">{filename}</h3>
+        <p class="text-xs leading-none text-muted uppercase">{fileType} · {fileSize} MB</p>
+      </div>
+
+      <ArrowDownToLineIcon size="20" stroke-width="1.5" />
+    </a>
+  </div>
+</section>

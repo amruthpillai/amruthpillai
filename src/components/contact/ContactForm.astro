@@ -1,0 +1,55 @@
+---
+import { SendIcon } from "@lucide/astro"
+
+import { contactForm } from "@/data/site"
+
+const redirectPath = new URL(contactForm.redirectPath, Astro.url).toString()
+---
+
+<form method="POST" action={contactForm.endpoint} class="flex flex-col gap-6">
+  <input type="hidden" name="_append" value="false" />
+
+  <input type="hidden" name="_redirect" value={redirectPath} />
+
+  <label class="sr-only" aria-hidden="true">
+    do not fill this field
+    <input type="text" name="_honeypot" tabindex="-1" autocomplete="off" />
+  </label>
+
+  <label class="flex flex-col gap-1.5">
+    <span class="text-sm italic">name</span>
+    <input
+      required
+      type="text"
+      name="name"
+      autocomplete="name"
+      class="border-b bg-transparent py-2 text-base transition-colors outline-none focus:border-foreground"
+    />
+  </label>
+
+  <label class="flex flex-col gap-1.5">
+    <span class="text-sm italic">email</span>
+    <input
+      required
+      type="email"
+      name="email"
+      autocomplete="email"
+      class="border-b bg-transparent py-2 text-base transition-colors outline-none focus:border-foreground"
+    />
+  </label>
+
+  <label class="flex flex-col gap-1.5">
+    <span class="text-sm italic">message</span>
+    <textarea
+      required
+      rows="4"
+      name="message"
+      class="resize-y border-b bg-transparent py-2 text-base transition-colors outline-none focus:border-foreground"
+    ></textarea>
+  </label>
+
+  <button type="submit" class="mt-4 self-start px-4">
+    send
+    <SendIcon size="14" stroke-width="1.5" />
+  </button>
+</form>
