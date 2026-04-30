@@ -11,11 +11,11 @@ interface Props {
 }
 
 const { post } = Astro.props
-const { date, formattedDate, readingTime } = getPostMetadata(post)
+const { date, formattedDate, readingTime, readingMinutes, tags } = getPostMetadata(post)
 const postPath = getBlogPostPath(post)
 ---
 
-<div class="flex flex-col gap-y-4 border-t py-6 first:border-t-0 first:pt-0 last:pb-0">
+<div data-post-card data-title={post.data.title} data-description={post.data.description} data-tags={tags.join(",")} data-published={post.data.publishedAt.getTime()} data-reading={readingMinutes} class="group flex flex-col gap-y-4 border-t py-6 first:border-t-0 first:pt-0 last:pb-0 transition-all duration-200">
   {
     post.data.featuredImage && (
       <a href={postPath}>
@@ -23,7 +23,7 @@ const postPath = getBlogPostPath(post)
           widths={[448]}
           loading="lazy"
           src={post.data.featuredImage}
-          class="max-w-md rounded-lg object-cover"
+          class="max-w-md rounded-lg object-cover transition-transform duration-200 group-hover:scale-[1.015]"
           alt={`Featured image for ${post.data.title}`}
           transition:name={`post-${post.id}-featured-image`}
         />
@@ -34,7 +34,7 @@ const postPath = getBlogPostPath(post)
   <article class="flex flex-col gap-2">
     <span
       transition:name={`post-${post.id}-meta`}
-      class="flex items-center gap-x-1 font-mono text-xs tracking-wide uppercase"
+      class="flex items-center gap-x-1 font-mono text-xs tracking-wide uppercase text-muted transition-colors group-hover:text-foreground"
     >
       <time datetime={date}>{formattedDate}</time>
       <DotIcon size="14" class="shrink-0" />
@@ -46,5 +46,8 @@ const postPath = getBlogPostPath(post)
     <p transition:name={`post-${post.id}-description`} class="max-w-prose leading-relaxed text-pretty">
       {post.data.description}
     </p>
+    <div class="flex flex-wrap gap-2 pt-1">
+      {tags.map((tag) => <a href={`/blog/tag/${tag.toLowerCase().replaceAll(" ", "-")}`} class="rounded-full border px-2 py-0.5 text-xs no-underline">{tag}</a>)}
+    </div>
   </article>
 </div>

@@ -6,71 +6,81 @@ import { render } from "astro:content"
 import { type BlogPost, getBlogPosts } from "@/collections/blog"
 import { getBlogPostSchema } from "@/data/site"
 import MainLayout from "@/layouts/MainLayout.astro"
-import { getPostMetadata } from "@/utils/post"
-import { getBlogPostSlug } from "@/utils/url"
+import { getPostMetadata, getRelatedPosts } from "@/utils/post"
+import { getBlogPostSlug, getBlogPostPath } from "@/utils/url"
 
-interface Props {
-  post: BlogPost
-}
+interface Props { post: BlogPost }
 
 export async function getStaticPaths() {
   const posts = await getBlogPosts()
-
-  return posts.map((post) => ({
-    params: { slug: getBlogPostSlug(post) },
-    props: { post },
-  }))
+  return posts.map((post) => ({ params: { slug: getBlogPostSlug(post) }, props: { post } }))
 }
 
 const { post } = Astro.props
 const { Content } = await render(post)
 const blogPostSchema = getBlogPostSchema(post)
-const { date, formattedDate, readingTime } = getPostMetadata(post)
+const { date, formattedDate, readingTime, tags } = getPostMetadata(post)
+const relatedPosts = getRelatedPosts(post, await getBlogPosts())
 ---
 
 <MainLayout title={`${post.data.title} · amruth pillai`} description={post.data.description}>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(blogPostSchema)} />
+  <div id="reading-progress" class="fixed top-0 left-0 z-50 h-0.5 w-0 bg-foreground"></div>
 
   <article class="my-18 space-y-8 sm:my-30 sm:space-y-12">
     <header class="flex flex-col gap-y-4">
-      {
-        post.data.featuredImage && (
-          <Image
-            widths={[768]}
-            loading="lazy"
-            src={post.data.featuredImage}
-            class="mb-2 rounded-md object-cover"
-            alt={`Featured image for ${post.data.title}`}
-            transition:name={`post-${post.id}-featured-image`}
-          />
-        )
-      }
-
-      <p
-        transition:name={`post-${post.id}-meta`}
-        class="flex items-center gap-x-1 font-mono text-xs tracking-wide uppercase"
-      >
-        <time datetime={date}>{formattedDate}</time>
-        <DotIcon size="14" class="shrink-0" />
-        <span>{readingTime}</span>
+      {post.data.featuredImage && <Image widths={[768]} loading="lazy" src={post.data.featuredImage} class="mb-2 rounded-md object-cover" alt={`Featured image for ${post.data.title}`} transition:name={`post-${post.id}-featured-image`} />}
+      <p transition:name={`post-${post.id}-meta`} class="flex items-center gap-x-1 font-mono text-xs tracking-wide uppercase">
+        <time datetime={date}>{formattedDate}</time><DotIcon size="14" class="shrink-0" /><span>{readingTime}</span>
       </p>
-      <h1 transition:name={`post-${post.id}-title`} class="text-3xl font-semibold tracking-tight sm:text-5xl">
-        {post.data.title}
-      </h1>
-      <p
-        transition:name={`post-${post.id}-description`}
-        class="max-w-prose text-base/relaxed text-pretty text-muted sm:text-lg/relaxed"
-      >
-        {post.data.description}
-      </p>
+      <h1 transition:name={`post-${post.id}-title`} class="text-3xl font-semibold tracking-tight sm:text-5xl">{post.data.title}</h1>
+      <p transition:name={`post-${post.id}-description`} class="max-w-prose text-base/relaxed text-pretty text-muted sm:text-lg/relaxed">{post.data.description}</p>
+      <div class="flex flex-wrap gap-2">{tags.map((tag) => <a href={`/blog/tag/${tag.toLowerCase().replaceAll(" ", "-")}`} class="rounded-full border px-2 py-0.5 text-xs no-underline">{tag}</a>)}</div>
     </header>
 
+    <aside id="toc" class="hidden rounded-md border p-4 text-sm"></aside>
     <hr />
-
-    <div
-      class="prose max-w-none prose-stone dark:prose-invert prose-headings:font-heading prose-headings:tracking-tight prose-a:decoration-1 prose-a:underline-offset-4"
-    >
+    <div id="post-content" class="prose max-w-none prose-stone dark:prose-invert prose-headings:font-heading prose-headings:tracking-tight prose-a:decoration-1 prose-a:underline-offset-4">
       <Content />
     </div>
+
+    {relatedPosts.length > 0 && (
+      <section class="space-y-3 border-t pt-6">
+        <h2 class="text-xl font-semibold">Related posts</h2>
+        <ul class="space-y-2">
+          {relatedPosts.map((candidate) => <li><a href={getBlogPostPath(candidate)}>{candidate.data.title}</a></li>)}
+        </ul>
+      </section>
+    )}
   </article>
+
+  <button id="back-to-top" class="fixed right-5 bottom-5 hidden rounded-full border bg-background px-3 py-2 text-xs no-underline">top ↑</button>
+  <script is:inline>
+    const progress = document.querySelector('#reading-progress')
+    const article = document.querySelector('article')
+    const toc = document.querySelector('#toc')
+    const topBtn = document.querySelector('#back-to-top')
+    const headings = [...document.querySelectorAll('#post-content h2, #post-content h3')]
+
+    if (headings.length > 2) {
+      toc.classList.remove('hidden')
+      toc.innerHTML = `<p class="mb-2 font-medium">On this page</p>${headings.map((h) => {
+        if (!h.id) h.id = h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+        return `<a class="block no-underline ${h.tagName === 'H3' ? 'ml-4' : ''}" href="#${h.id}">${h.textContent}</a>`
+      }).join('')}`
+    }
+
+    const onScroll = () => {
+      const rect = article.getBoundingClientRect()
+      const total = rect.height - window.innerHeight
+      const read = Math.min(Math.max(-rect.top, 0), total)
+      const pct = total > 0 ? (read / total) * 100 : 0
+      if (progress) progress.style.width = `${pct}%`
+      topBtn?.classList.toggle('hidden', window.scrollY < 500)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    topBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }))
+  </script>
 </MainLayout>

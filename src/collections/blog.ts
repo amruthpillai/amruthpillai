@@ -10,6 +10,7 @@ export const blogCollection = defineCollection({
       description: z.string(),
       publishedAt: z.coerce.date(),
       featuredImage: z.optional(image()),
+      tags: z.array(z.string()).default([]),
     }),
 })
 

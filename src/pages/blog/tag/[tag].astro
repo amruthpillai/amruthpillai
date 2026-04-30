@@ -1,0 +1,26 @@
+---
+import { getBlogPosts } from "@/collections/blog"
+import PostCard from "@/components/blog/PostCard.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts()
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))]
+  return tags.map((tag) => ({ params: { tag: tag.toLowerCase().replaceAll(" ", "-") }, props: { tag } }))
+}
+
+const { tag } = Astro.props
+const posts = (await getBlogPosts()).filter((post) => (post.data.tags ?? []).includes(tag))
+---
+
+<MainLayout title={`${tag} · blog · amruth pillai`} description={`Posts tagged ${tag}`}>
+  <section class="my-18 space-y-10 sm:my-30 sm:space-y-12">
+    <header class="space-y-3">
+      <h1 class="text-4xl font-semibold tracking-tight">tag: {tag}</h1>
+      <p class="text-muted">{posts.length} post(s)</p>
+    </header>
+    <div>
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</MainLayout>

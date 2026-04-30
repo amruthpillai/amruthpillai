@@ -2,15 +2,17 @@
 import { getBlogPosts } from "@/collections/blog"
 import PostCard from "@/components/blog/PostCard.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getAllTags } from "@/utils/post"
 
 const posts = await getBlogPosts()
+const tags = getAllTags(posts)
 ---
 
 <MainLayout
   title="blog · amruth pillai"
   description="my rambling thoughts on design, development, and building on the web."
 >
-  <section class="my-18 space-y-18 sm:my-30 sm:space-y-30">
+  <section class="my-18 space-y-10 sm:my-30 sm:space-y-12">
     <header class="space-y-3">
       <h1 class="text-5xl leading-none font-semibold tracking-tight">blog</h1>
       <p class="max-w-prose leading-relaxed text-pretty text-muted">
@@ -18,8 +20,64 @@ const posts = await getBlogPosts()
       </p>
     </header>
 
-    <div>
+    <div class="space-y-4">
+      <input id="blog-search" type="search" placeholder="search posts..." class="w-full rounded-md border bg-transparent px-3 py-2" />
+      <div class="flex flex-wrap gap-2">
+        <button data-tag="all" class="tag-filter active rounded-full border px-3 py-1 text-xs no-underline">all</button>
+        {tags.map((tag) => <button data-tag={tag} class="tag-filter rounded-full border px-3 py-1 text-xs no-underline">{tag}</button>)}
+      </div>
+      <select id="blog-sort" class="rounded-md border bg-transparent px-3 py-2">
+        <option value="newest">newest</option>
+        <option value="oldest">oldest</option>
+        <option value="reading">reading time</option>
+      </select>
+    </div>
+
+    <div id="blog-list">
       {posts.map((post) => <PostCard post={post} />)}
     </div>
+    <p id="blog-empty" class="hidden text-muted">No posts match your filters.</p>
   </section>
+
+  <script is:inline>
+    const cards = [...document.querySelectorAll('[data-post-card]')]
+    const search = document.querySelector('#blog-search')
+    const sort = document.querySelector('#blog-sort')
+    const tagButtons = [...document.querySelectorAll('.tag-filter')]
+    const empty = document.querySelector('#blog-empty')
+    let activeTag = 'all'
+
+    const getValue = (node, key) => node.dataset[key] || ''
+
+    const render = () => {
+      const term = (search?.value || '').toLowerCase().trim()
+      const sortValue = sort?.value || 'newest'
+
+      const visible = cards.filter((card) => {
+        const haystack = `${getValue(card, 'title')} ${getValue(card, 'description')} ${getValue(card, 'tags')}`.toLowerCase()
+        const hasTerm = !term || haystack.includes(term)
+        const hasTag = activeTag === 'all' || getValue(card, 'tags').split(',').includes(activeTag)
+        return hasTerm && hasTag
+      })
+
+      cards.sort((a, b) => {
+        if (sortValue === 'oldest') return Number(getValue(a, 'published')) - Number(getValue(b, 'published'))
+        if (sortValue === 'reading') return Number(getValue(a, 'reading')) - Number(getValue(b, 'reading'))
+        return Number(getValue(b, 'published')) - Number(getValue(a, 'published'))
+      }).forEach((card) => card.parentElement.appendChild(card))
+
+      cards.forEach((card) => card.classList.toggle('hidden', !visible.includes(card)))
+      empty?.classList.toggle('hidden', visible.length > 0)
+    }
+
+    search?.addEventListener('input', render)
+    sort?.addEventListener('change', render)
+    tagButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeTag = button.dataset.tag || 'all'
+        tagButtons.forEach((btn) => btn.classList.toggle('active', btn === button))
+        render()
+      })
+    })
+  </script>
 </MainLayout>
