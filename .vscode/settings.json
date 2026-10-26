@@ -1,5 +1,4 @@
 {
-  "typescript.inlayHints.parameterNames.enabled": "all",
   "[mdx]": {
     "editor.defaultFormatter": "unifiedjs.vscode-mdx"
   },
@@ -12,5 +11,8 @@
       "fileMatch": [".ncurc.json"],
       "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
     }
-  ]
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

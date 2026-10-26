@@ -1,5 +1,6 @@
 // @ts-check
 
+import { unified } from "@astrojs/markdown-remark"
 import mdx from "@astrojs/mdx"
 import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
@@ -7,16 +8,20 @@ import tailwindcss from "@tailwindcss/vite"
 import { defineConfig, fontProviders } from "astro/config"
 import expressiveCode from "astro-expressive-code"
 import rehypeSlug from "rehype-slug"
-import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://amruthpillai.com",
+  session: false,
 
   integrations: [react(), expressiveCode(), mdx(), sitemap()],
 
   vite: {
-    plugins: [tailwindcss(), tsconfigPaths()],
+    plugins: [tailwindcss()],
+
+    resolve: {
+      tsconfigPaths: true,
+    },
   },
 
   image: {
@@ -28,7 +33,13 @@ export default defineConfig({
   },
 
   markdown: {
-    rehypePlugins: [rehypeSlug],
+    processor: unified({
+      rehypePlugins: [rehypeSlug],
+    }),
+  },
+
+  experimental: {
+    incrementalBuild: true,
   },
 
   fonts: [
